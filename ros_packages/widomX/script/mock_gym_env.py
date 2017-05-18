@@ -61,7 +61,7 @@ class MockGymEnv():
 class MockGymEnvWithStates():
     def __init__(self):
         self.observation = None
-        self.state = None
+        self.state = Int16MultiArray()
         #return a 6 channel rgb array
         def multi_cam_cb(data):
             #pdb.set_trace()
@@ -78,16 +78,15 @@ class MockGymEnvWithStates():
         rospy.Subscriber('env_obs', multi_cam, multi_cam_cb)
         self.torque_controller = rospy.Publisher('servo', Int16MultiArray, queue_size = 10)
         self.obs_trigger = rospy.Publisher('camera_trigger', Empty, queue_size = 10)
-        self.state_trigger = rospy.Publisher('trigger_data', Empty, queue_size = 10)
         rospy.Subscriber('armstate', Int16MultiArray, state_cb)
         self.msg_to_send = Int16MultiArray()
+        self.msg_to_send.data = [0,0,0,0]
         self.trigger_msg = Empty()
         #test
         self.obs_trigger.publish(self.trigger_msg)
-        self.state_trigger.publish(self.trigger_msg)
+        self.torque_controller.publish(self.msg_to_send)
         time.sleep(2)
         self.obs_trigger.publish(self.trigger_msg)
-        self.state_trigger.publish(self.trigger_msg)
         time.sleep(2)
         # import pdb; pdb.set_trace()
     def step(self, torque_input):
@@ -99,12 +98,8 @@ class MockGymEnvWithStates():
         # print self.observation
         self.msg_to_send.data = torque_input
         self.torque_controller.publish(self.msg_to_send)
-        # pdb.set_trace()
         self.obs_trigger.publish(self.trigger_msg)
-        self.state_trigger.publish(self.trigger_msg)
-        #  time.sleep(2)
-        # print ("self.obs after call back")
-        # print (self.observation)
+        #import pdb; pdb.set_trace()
         return {"images":self.observation, "states": self.state}, 0, False, {"info" : "this environment can not \
                                             provide intrinsic reward"}
     #random initlize for each trajectory

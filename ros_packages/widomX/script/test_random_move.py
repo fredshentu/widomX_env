@@ -39,16 +39,15 @@ while i < 100:
     b = random.randint(-70,70)
     c = random.randint(-70,70)
     d = random.randint(-400,400)
-    #a = 0;b=0;c=0;d=0
+    a = 0;b=0;c=0;d=0
     writer1.writerows([[a,b,c,d]])
     obs, reward, done, _ = env.step([a,b,c,d])
     i+=1
     #print obs["states"].data
     #import pdb; pdb.set_trace()
-    #save_obs(obs["images"])
+    save_obs(obs["images"])
     lst =obs["states"].data
-   #f.write("%s\n" % lst)
-    writer.writerows([list(lst)])
+    writer.writerows([lst])
     time.sleep(0.1) #6Hz
 env.step([0,0,0,0])
 f.close()

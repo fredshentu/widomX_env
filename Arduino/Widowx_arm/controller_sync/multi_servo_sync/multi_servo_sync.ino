@@ -1,3 +1,5 @@
+/*V2, whenever recive the command from computer, publish the current state to arm_state topic*/
+
 #include <ros.h>
 #include "std_msgs/MultiArrayLayout.h"
 #include "std_msgs/MultiArrayDimension.h"
@@ -23,6 +25,10 @@ int M4;
 int data[8] = {0,0,0,0,0,0,0,0};
 
 void servo_cb( const std_msgs::Int16MultiArray&  cmd_msg){
+  
+    get_arm_state();
+    armdata.data = data;
+    armstate.publish(&armdata);
     /*interface with computer: torque can be positive and negative,
     Sign indicates the direction and the magnitude indicate the force
     -1023~1023*/
@@ -57,19 +63,13 @@ void servo_cb( const std_msgs::Int16MultiArray&  cmd_msg){
     }
 }
 
-void data_cb(const std_msgs::Empty& toggle_msg){
-    get_arm_state();
-    armdata.data = data;
-    armstate.publish(&armdata);
-}
+
 
 ros::Subscriber<std_msgs::Int16MultiArray> sub("servo", servo_cb);
-ros::Subscriber<std_msgs::Empty> sub_data("trigger_data", data_cb);
 
 void setup(){
     nh.initNode();
     nh.subscribe(sub);
-    nh.subscribe(sub_data);
     TorqueEnable(2);
     TorqueEnable(3);
     nh.advertise(armstate);

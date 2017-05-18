@@ -88,7 +88,7 @@ void loop(){
     get_arm_state();
     armdata.data = data;
     armstate.publish(&armdata);
-    delay(100); //40Hz
+    delay(10); //40Hz
 }
 
 void get_arm_state() {
