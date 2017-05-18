@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -O2 -g -DNDEBUG  -shared -Wl,-soname,libgtest.so -o /home/fredshentu/kinetic_workspace/sandbox/widomX/lib/libgtest.so CMakeFiles/gtest.dir/src/gtest-all.cc.o  -L/opt/ros/kinetic/lib  -L/home/fredshentu/kinetic_workspace/sandbox/widomX/build/gtest/src -lpthread -Wl,-rpath,/opt/ros/kinetic/lib:/home/fredshentu/kinetic_workspace/sandbox/widomX/build/gtest/src 
