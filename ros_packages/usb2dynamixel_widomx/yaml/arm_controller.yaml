@@ -1,0 +1,51 @@
+joint1_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: base_ratation
+    joint_speed: 3.14
+    motor:
+        id: 1
+        init: 0
+        min: 0
+        max: 4095
+
+joint2_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name:  base_lifting
+    joint_speed: 3.14
+    motor:
+        id: 2
+        init: 0
+        min: 0
+        max: 4095
+        
+joint3_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: elbow
+    joint_speed: 3.14
+    motor:
+        id: 3
+        init: 0
+        min: 0
+        max: 4095
+
+joint4_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: wrist_lifting
+    joint_speed: 3.14
+    motor:
+        id: 4
+        init: 0
+        min: 0
+        max: 4095

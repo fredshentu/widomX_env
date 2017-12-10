@@ -1,0 +1,24 @@
+<launch>
+    <!-- Start arm joint controller -->
+    <rosparam file="$(find usb2dynamixel_widomx)/yaml/arm_controller.yaml" command="load"/>
+    <node name="arm_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+                --port pan_tilt_port
+                joint1_controller
+                joint2_controller
+                joint3_controller
+                joint4_controller"
+          output="screen"/>
+    <node name="joint_state_buffer" pkg="usb2dynamixel_widomx" type="latest_state.py" output="screen" />
+    <node name="audio_buffer" pkg="usb2dynamixel_widomx" type="latest4_audio.py" output="screen" />
+    <node name="camera_buffer" pkg="usb2dynamixel_widomx" type="camera2_3f_save_rgb.py" output="screen"/>
+    <node name="joint1_linearinterpolation_controller" pkg="usb2dynamixel_widomx" type="linear_interpolation_servo_controller.py"
+          args="joint1 joint1_controller joint1_controller" output="screen"/>
+    <node name="joint2_linearinterpolation_controller" pkg="usb2dynamixel_widomx" type="linear_interpolation_servo_controller.py"
+          args="joint2 joint2_controller joint2_controller" output="screen"/>
+    <node name="joint3_linearinterpolation_controller" pkg="usb2dynamixel_widomx" type="linear_interpolation_servo_controller.py"
+          args="joint3 joint3_controller joint3_controller" output="screen"/>
+    <node name="joint4_linearinterpolation_controller" pkg="usb2dynamixel_widomx" type="linear_interpolation_servo_controller.py"
+          args="joint4 joint4_controller joint4_controller" output="screen"/>
+</launch>
+

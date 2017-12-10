@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -O2 -g -DNDEBUG  -shared -Wl,-soname,libgtest.so -o /home/fredshentu/kinetic_workspace/sandbox/usb2dynamixel_widomx/lib/libgtest.so CMakeFiles/gtest.dir/src/gtest-all.cc.o  -L/home/fredshentu/kinetic_workspace/sandbox/usb2dynamixel_widomx/build/gtest/src -lpthread -Wl,-rpath,/home/fredshentu/kinetic_workspace/sandbox/usb2dynamixel_widomx/build/gtest/src 

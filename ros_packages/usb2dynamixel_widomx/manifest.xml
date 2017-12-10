@@ -1,0 +1,14 @@
+<package>
+  <description brief="usb2dynamixel_widomx">
+
+     usb2dynamixel_widomx
+
+  </description>
+  <author>Fred Shentu</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/usb2dynamixel_widomx</url>
+
+</package>
+
+

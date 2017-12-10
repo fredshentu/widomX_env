@@ -8,9 +8,13 @@ from widomX.msg import multi_cam
 import scipy.misc
 import numpy as np
 from sensor_msgs.msg import Image
+import time
 
 RESIZE_WIDTH = 128
 RESIZE_HEIGHT = 128
+
+# RESIZE_WIDTH = 128
+# RESIZE_HEIGHT = 128
 
 cam1_latest_data = Image()
 cam2_latest_data = Image()
@@ -26,6 +30,14 @@ cam2_name = "/camera2/usb_cam2/image_raw"
 
 observation = multi_cam()
 
+#3 channel, 3 gray_scale images
+cam1_before_flatten = np.zeros([RESIZE_WIDTH, RESIZE_HEIGHT, 3], dtype=np.uint8)
+cam2_before_flatten = np.zeros([RESIZE_WIDTH, RESIZE_HEIGHT, 3], dtype=np.uint8)
+
+def rgb2gray(rgb):
+    return np.dot(rgb[...,:3], [0.299, 0.587, 0.114])
+    
+    
 def send_latest_frame(data):
     #rospy.loginfo(rospy.get_caller_id() + "query for frame")
     #send the latest frame
@@ -43,10 +55,13 @@ def cam2_update(data):
     image = np.reshape(image, [height, width, 3])
     
     image = scipy.misc.imresize(image, [RESIZE_WIDTH, RESIZE_HEIGHT])
-    # print(data.data.shape)
-    global cam2_latest_data
-    cam2_latest_data.data = list(image.flatten())
+    image = rgb2gray(image)
     
+    cam2_before_flatten[:,:,:2] = cam2_before_flatten[:,:,1:]
+    cam2_before_flatten[:,:,2] = image
+        
+    global cam2_latest_data
+    cam2_latest_data.data = list(cam2_before_flatten.flatten()) 
 
 def cam1_update(data):
     height = data.height
@@ -54,12 +69,13 @@ def cam1_update(data):
     # print(height)
     # print(width)
     image = np.fromstring(data.data, dtype = np.uint8)
-    # print(image.shape)
     image = np.reshape(image, [height, width, 3])
     image = scipy.misc.imresize(image, [RESIZE_WIDTH, RESIZE_HEIGHT])
-    # print(data.data.shape)
+    image = rgb2gray(image)
+    cam1_before_flatten[:,:,:2] = cam1_before_flatten[:,:,1:]
+    cam1_before_flatten[:,:,2] = image
     global cam1_latest_data
-    cam1_latest_data.data = list(image.flatten())
+    cam1_latest_data.data = list(cam1_before_flatten.flatten())
     
 def camera_buffer():
 
